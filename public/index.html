@@ -46,10 +46,9 @@
 
      window.addEventListener('load', function(e){
         loadSound('cuckoo_clock', 'sounds/cuckoo_clock.wav');
-
-        document.getElementById('wee').addEventListener('click', function(e){
-          playSound('cuckoo_clock');
-        });
+        loadSound('pc_love_you', 'sounds/pc_love_you.wav');
+        loadSound('witch_laugh', 'sounds/witch_laugh.wav');
+        loadSound('never_give_you_up', 'sounds/never_give_you_up.wav');
       });
 
       initVideo();
@@ -111,6 +110,5 @@
     <video id="myVideo" autoplay></video>
     <canvas id="canvas" height="150" width="150"></canvas>
     <img id="save" />
-    <input type='button' id ='wee' name='Play my sound'>
   </body>
 </html>
