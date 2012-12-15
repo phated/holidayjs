@@ -27,6 +27,14 @@
         img.src = data.upload_img;
       });
 
+     window.addEventListener('load', function(e){
+        loadSound('cuckoo_clock', 'sounds/cuckoo_clock.wav');
+
+        document.getElementById('wee').addEventListener('click', function(e){
+          playSound('cuckoo_clock');
+        });
+      });
+
       initVideo();
 
       function getSnapShot() {
@@ -49,11 +57,29 @@
         });
       }
 
+      var loadSound = function(name, url) {
+        var request = new XMLHttpRequest();
+        request.open('GET', url, true);
+        // Web Audio is binary (not text) - we need an arraybuffer
+        request.responseType = 'arraybuffer';
+
+        // Decode asynchronously
+        request.onload = function() {
+          if(audioContext){
+            audioContext.decodeAudioData(
+              request.response, function(buffer){
+                soundBuffers[name] = buffer;
+              }, onError);
+          }
+        }
+        request.send();
+      };
     </script>
   </head>
   <body>
     <video id="myVideo" autoplay></video>
     <canvas id="canvas" height="150" width="150"></canvas>
     <img id="save" />
+    <input type='button' id ='wee'>
   </body>
 </html>
