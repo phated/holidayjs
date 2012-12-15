@@ -1,0 +1,26 @@
+<html>
+  <head>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      var userId;
+      var socket = io.connect('http://localhost');
+      socket.on('new_player', function (data) {
+        console.log(data);
+        // Set a global ID
+        userId = data.id;
+        // TODO: insert tiles
+      });
+
+      socket.on('need_img', function(data){
+        if(userId === data.id){
+          // TODO: get base64 image
+          var imgData;
+          socket.emit('upload_img', { img: imgData });
+        }
+      })
+    </script>
+  </head>
+  <body>
+
+  </body>
+</html>
