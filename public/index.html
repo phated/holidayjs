@@ -28,7 +28,7 @@
         var canvas = document.getElementById('canvas');
         var context = canvas.getContext('2d');
         //grab snapshot
-        context.drawImage(video, 0, 0);
+        context.drawImage(video, 150, 150);
         //capture base 64 data
         return canvas.toDataURL();        
       }
@@ -48,6 +48,6 @@
   </head>
   <body>
     <video id="myVideo" autoplay></video>
-    <canvas id="canvas" height="480" width="640"></canvas>
+    <canvas id="canvas" height="150" width="150"></canvas>
   </body>
 </html>
