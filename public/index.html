@@ -13,14 +13,38 @@
 
       socket.on('need_img', function(data){
         if(userId === data.id){
-          // TODO: get base64 image
-          var imgData;
+          var imgData = getSnapShot();
           socket.emit('upload_img', { img: imgData });
         }
-      })
+      });
+
+      initVideo();
+
+      function getSnapShot() {
+        var canvas = document.getElementById('canvas');
+        var context = canvas.getContext('2d');
+        //grab snapshot
+        context.drawImage(video, 0, 0);
+        //capture base 64 data
+        return canvas.toDataURL();        
+      }
+
+      function initVideo() {
+        var video;
+        navigator.getUserMedia({
+          video: true
+        }, function(localMediaStream) {
+          video = document.getElementById("myVideo");
+          video.src = window.URL.createObjectURL(localMediaStream);
+        }, function(error) {
+          console.log(error);
+        });
+      }
+
     </script>
   </head>
   <body>
-
+    <video id="myVideo" autoplay></video>
+    <canvas id="canvas" height="480" width="640"></canvas>
   </body>
 </html>
