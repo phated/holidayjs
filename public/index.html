@@ -6,6 +6,7 @@
           navigator.mozGetUserMedia || navigator.msGetUserMedia;
       window.URL = window.URL || window.webkitURL;
       var userId;
+      var video;
       var socket = io.connect('http://localhost');
       socket.on('new_player', function (data) {
         console.log(data);
@@ -33,7 +34,6 @@
       }
 
       function initVideo() {
-        var video;
         navigator.getUserMedia({
           video: true
         }, function(localMediaStream) {
