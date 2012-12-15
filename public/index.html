@@ -1,5 +1,8 @@
+<!DOCTYPE html>
 <html>
   <head>
+    <link type="text/css" rel="stylesheet" href="style.css"/>
+
     <script src="/socket.io/socket.io.js"></script>
     <script>
       var userId;
@@ -26,7 +29,7 @@
         //grab snapshot
         context.drawImage(video, 0, 0);
         //capture base 64 data
-        return canvas.toDataURL();        
+        return canvas.toDataURL();
       }
 
       function initVideo() {
