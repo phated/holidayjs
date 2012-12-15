@@ -18,6 +18,8 @@
         alert('Web Audio API is not supported in this browser');
       }
 
+      var soundBuffers = {};
+
       var socket = io.connect('http://localhost');
       socket.on('new_player', function (data) {
         console.log(data);
