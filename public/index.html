@@ -22,6 +22,11 @@
         }
       });
 
+      socket.on('send_img', function(data) {
+        var img = document.getElementById('save');
+        img.src = data.upload_img;
+      });
+
       initVideo();
 
       function getSnapShot() {
@@ -49,5 +54,6 @@
   <body>
     <video id="myVideo" autoplay></video>
     <canvas id="canvas" height="150" width="150"></canvas>
+    <img id="save" />
   </body>
 </html>
