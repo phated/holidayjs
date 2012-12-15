@@ -8,6 +8,10 @@
       var userId;
       var video;
 
+      var onError = function(){
+        console.error(arguments);
+      };
+
       var audioContext;
 
       // Try/Catch incase it doesn't exist (FF/IE)
@@ -107,6 +111,6 @@
     <video id="myVideo" autoplay></video>
     <canvas id="canvas" height="150" width="150"></canvas>
     <img id="save" />
-    <input type='button' id ='wee'>
+    <input type='button' id ='wee' name='Play my sound'>
   </body>
 </html>
