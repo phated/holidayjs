@@ -7,6 +7,17 @@
       window.URL = window.URL || window.webkitURL;
       var userId;
       var video;
+
+      var audioContext;
+
+      // Try/Catch incase it doesn't exist (FF/IE)
+
+      try {
+        audioContext = new webkitAudioContext();
+      } catch(e) {
+        alert('Web Audio API is not supported in this browser');
+      }
+
       var socket = io.connect('http://localhost');
       socket.on('new_player', function (data) {
         console.log(data);
@@ -74,6 +85,20 @@
         }
         request.send();
       };
+
+      var playSound = function(name) {
+        if(audioContext){
+          // creates a sound source
+          var soundSource = audioContext.createBufferSource();
+          // tell the source which sound to play
+          soundSource.buffer = soundBuffers[name];
+          // connect the source to the context's destination
+          soundSource.connect(audioContext.destination);
+          // play the source now
+          soundSource.noteOn(0);
+        }
+      };
+
     </script>
   </head>
   <body>
