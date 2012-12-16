@@ -1,38 +1,22 @@
-img{
-	width: 150px;
-	height: 150px;
-}
-#card .front{
-	position: absolute;
-}
-#card .back{
-	position: absolute;
-    -webkit-transform: rotateY(180deg);
-}
-.container { 
+#container { 
   border: 7px dashed red;
   border-radius: 30px;
   width: 500px;
   height: 500px;
   position: relative;
+  padding: 15px;
+  -webkit-transform-style: preserve-3d;
 }
-#card {
+.card {
   width: 150px;
   height: 150px;
   position: relative;
   display: inline-block;
-  transform-style: preserve-3d;
-  transition: transform 1s;
-}
-#card figure {
-  display: inline-block;
-  position: absolute;
-  border: 2px solid black;
   border-radius: 10px;
-  width: 150px;
-  height: 150px;
-  backface-visibility: hidden;
+  background: url('http://holidayjs.com/images/logo.png');
+  background-size: 100%;
+  -webkit-transition: all 5s;
 }
-#card.flipped {
-  transform: rotateY( 180deg );
+.card.flipped {
+  -webkit-transform: rotateY( 180deg );
 }
