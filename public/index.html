@@ -28,6 +28,7 @@
       }
 
       var soundBuffers = {};
+      var soundNames = ["cuckoo_clock", "pc_love_you", "witch_laugh"];
 
       var socket = io.connect('http://localhost');
       socket.on('new_player', function (data) {
@@ -102,6 +103,7 @@
         socket.emit('tile_flip', {
           id: pid
         });
+        playSound(soundNames[Math.floor(Math.random()*3)]);
       });
 
       var loadSound = function(name, url) {
