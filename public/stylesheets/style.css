@@ -19,3 +19,13 @@ img {
   width: 150px;
   height: 150px;
 }
+
+video {
+  float: right;
+  height: 300px;
+  width: 300px;
+}
+
+canvas {
+  float: right;
+}

@@ -23,17 +23,26 @@ app.configure('development', function(){
 });
 
 io.sockets.on('connection', function (socket) {
-  socket.emit('new_player', { id: socket.id });
+  socket.join('game');
+
+  var players = io.sockets.clients('game').map(function(client){
+    return client.id;
+  });
+
+  io.sockets.in('game').emit('new_player', {
+    id: socket.id,
+    players: players
+  });
 
   socket.on('tile_flip', function (data) {
     console.log('tile_flip', data);
 
-    socket.broadcast.emit('need_img', { id: data.id });
+    io.sockets.in('game').emit('need_img', { id: data.id });
   });
 
   socket.on('upload_img', function(data){
     console.log(data);
-    socket.broadcast.emit('send_img', { img: data.img });
+    io.sockets.in('game').emit('send_img', { id: data.id, img: data.img });
   });
 });
 
