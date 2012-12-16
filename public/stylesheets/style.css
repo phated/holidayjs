@@ -1,8 +1,7 @@
 #container {
   border: 7px dashed red;
   border-radius: 30px;
-  width: 500px;
-  height: 500px;
+  width: 630px;
   position: relative;
   padding: 15px;
   -webkit-transform-style: preserve-3d;
@@ -42,4 +41,5 @@ video {
 
 canvas {
   float: right;
+  display: none;
 }
