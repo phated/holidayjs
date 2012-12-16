@@ -2,7 +2,28 @@
   <head>
     <script src="/socket.io/socket.io.js"></script>
     <script>
+      navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia ||
+          navigator.mozGetUserMedia || navigator.msGetUserMedia;
+      window.URL = window.URL || window.webkitURL;
       var userId;
+      var video;
+
+      var onError = function(){
+        console.error(arguments);
+      };
+
+      var audioContext;
+
+      // Try/Catch incase it doesn't exist (FF/IE)
+
+      try {
+        audioContext = new webkitAudioContext();
+      } catch(e) {
+        alert('Web Audio API is not supported in this browser');
+      }
+
+      var soundBuffers = {};
+
       var socket = io.connect('http://localhost');
       socket.on('new_player', function (data) {
         console.log(data);
@@ -13,14 +34,81 @@
 
       socket.on('need_img', function(data){
         if(userId === data.id){
-          // TODO: get base64 image
-          var imgData;
+          var imgData = getSnapShot();
           socket.emit('upload_img', { img: imgData });
         }
-      })
+      });
+
+      socket.on('send_img', function(data) {
+        var img = document.getElementById('save');
+        img.src = data.upload_img;
+      });
+
+     window.addEventListener('load', function(e){
+        loadSound('cuckoo_clock', 'sounds/cuckoo_clock.wav');
+        loadSound('pc_love_you', 'sounds/pc_love_you.wav');
+        loadSound('witch_laugh', 'sounds/witch_laugh.wav');
+        loadSound('never_give_you_up', 'sounds/never_give_you_up.wav');
+      });
+
+      initVideo();
+
+      function getSnapShot() {
+        var canvas = document.getElementById('canvas');
+        var context = canvas.getContext('2d');
+        //grab snapshot
+        context.drawImage(video, 150, 150);
+        //capture base 64 data
+        return canvas.toDataURL();        
+      }
+
+      function initVideo() {
+        navigator.getUserMedia({
+          video: true
+        }, function(localMediaStream) {
+          video = document.getElementById("myVideo");
+          video.src = window.URL.createObjectURL(localMediaStream);
+        }, function(error) {
+          console.log(error);
+        });
+      }
+
+      var loadSound = function(name, url) {
+        var request = new XMLHttpRequest();
+        request.open('GET', url, true);
+        // Web Audio is binary (not text) - we need an arraybuffer
+        request.responseType = 'arraybuffer';
+
+        // Decode asynchronously
+        request.onload = function() {
+          if(audioContext){
+            audioContext.decodeAudioData(
+              request.response, function(buffer){
+                soundBuffers[name] = buffer;
+              }, onError);
+          }
+        }
+        request.send();
+      };
+
+      var playSound = function(name) {
+        if(audioContext){
+          // creates a sound source
+          var soundSource = audioContext.createBufferSource();
+          // tell the source which sound to play
+          soundSource.buffer = soundBuffers[name];
+          // connect the source to the context's destination
+          soundSource.connect(audioContext.destination);
+          // play the source now
+          soundSource.noteOn(0);
+        }
+      };
+
     </script>
   </head>
   <body>
-
+    <video id="myVideo" autoplay></video>
+    <canvas id="canvas" height="150" width="150"></canvas>
+    <img id="save" />
   </body>
 </html>
