@@ -108,11 +108,16 @@
         });
         $el.toggleClass('flipped');
         var match = false;
-        var pids = $('.card.flipped').data('pid');
-        console.log(pids);
+        var pids = [];
+        $('.card.flipped').each(function(idx, el){
+          pids.push($(el).data('pid'));
+        });
+        if(pids.length === 2 && pids[0] === pids[1]){
+          match = true;
+        }
         if(match) {
           playSound('applause');
-        } else if('.card.flipped').length == 0) {
+        } else if($('.card.flipped').length == 0) {
           playSound(soundNames[Math.floor(Math.random()*3)]);
         } else {
           playSound('never_give_you_up');
