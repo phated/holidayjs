@@ -46,6 +46,7 @@
 
       socket.on('send_img', function(data) {
         // var img = document.getElementById('save');
+        // var img = new Image();
         // img.src = data.img;
         $('[data-pid="' + data.id + '"] img').attr('src', data.img);
       });
@@ -86,22 +87,24 @@
       function addTiles(players){
         var container = document.getElementById('container');
         var tiles1 = _.map(players, function(player){
-          return '<div class="pics" data-pid="' + player + '"><img src="http://holidayjs.com/images/logo.png"></div>';
+          return '<div class="card" data-pid="' + player + '"><img /></div>';
         });
         var tiles2 = _.map(players, function(player){
-          return '<div class="pics" data-pid="' + player + '"><img src="http://holidayjs.com/images/logo.png"></div>';
+          return '<div class="card" data-pid="' + player + '"><img /></div>';
         });
         var tiles = randomize(tiles1.concat(tiles2));
         container.innerHTML = tiles.join('');
       }
 
-      $(document).on('click', '.pics', function(){
+      $(document).on('click', '.card', function(){
         console.log('FLIP');
-        var pid = $(this).data('pid');
+        var $el = $(this);
+        var pid = $el.data('pid');
         console.log(pid);
         socket.emit('tile_flip', {
           id: pid
         });
+        $el.toggleClass('flipped');
       });
 
       var loadSound = function(name, url) {
@@ -140,7 +143,34 @@
   <body>
     <video id="myVideo" autoplay></video>
     <canvas id="canvas" height="150" width="150"></canvas>
-    <img id="save" />
-    <div id="container" class="outside"></div>
+    <section id="container">
+      <div class="card">
+        <img />
+      </div>
+      <div class="card">
+        <img />
+      </div>
+      <div class="card">
+        <img />
+      </div>
+      <div class="card">
+        <img />
+      </div>
+      <div class="card">
+        <img />
+      </div>
+      <div class="card">
+        <img />
+      </div>
+      <div class="card">
+        <img />
+      </div>
+      <div class="card">
+        <img />
+      </div>
+      <div class="card">
+        <img />
+      </div>
+    </section>
   </body>
 </html>
