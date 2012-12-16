@@ -1,0 +1,38 @@
+img{
+	width: 150px;
+	height: 150px;
+}
+#card .front{
+	position: absolute;
+}
+#card .back{
+	position: absolute;
+    -webkit-transform: rotateY(180deg);
+}
+.container { 
+  border: 7px dashed red;
+  border-radius: 30px;
+  width: 500px;
+  height: 500px;
+  position: relative;
+}
+#card {
+  width: 150px;
+  height: 150px;
+  position: relative;
+  display: inline-block;
+  transform-style: preserve-3d;
+  transition: transform 1s;
+}
+#card figure {
+  display: inline-block;
+  position: absolute;
+  border: 2px solid black;
+  border-radius: 10px;
+  width: 150px;
+  height: 150px;
+  backface-visibility: hidden;
+}
+#card.flipped {
+  transform: rotateY( 180deg );
+}
