@@ -56,6 +56,7 @@
         loadSound('pc_love_you', 'sounds/pc_love_you.wav');
         loadSound('witch_laugh', 'sounds/witch_laugh.wav');
         loadSound('never_give_you_up', 'sounds/never_give_you_up.wav');
+        loadSound('applause', 'sounds/applause.wav');
       });
 
       initVideo();
@@ -103,7 +104,13 @@
         socket.emit('tile_flip', {
           id: pid
         });
+        // if first click
         playSound(soundNames[Math.floor(Math.random()*3)]);
+        // else if 2nd click and wrong
+        //playSound('never_give_you_up');
+        //else if 2nd click and right
+        //playSound('applause');
+
       });
 
       var loadSound = function(name, url) {
