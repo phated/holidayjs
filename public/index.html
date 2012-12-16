@@ -107,12 +107,16 @@
           id: pid
         });
         $el.toggleClass('flipped');
-        // if first click
-        // playSound(soundNames[Math.floor(Math.random()*3)]);
-        // else if 2nd click and wrong
-        //playSound('never_give_you_up');
-        //else if 2nd click and right
-        //playSound('applause');
+        var match = false;
+        var pids = $('.card.flipped').data('pid');
+        console.log(pids);
+        if(match) {
+          playSound('applause');
+        } else if('.card.flipped').length == 0) {
+          playSound(soundNames[Math.floor(Math.random()*3)]);
+        } else {
+          playSound('never_give_you_up');
+        }
       });
 
       var loadSound = function(name, url) {
