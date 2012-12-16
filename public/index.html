@@ -28,6 +28,7 @@
       }
 
       var soundBuffers = {};
+      var soundNames = ["cuckoo_clock", "pc_love_you", "witch_laugh"];
 
       var socket = io.connect('http://localhost');
       socket.on('new_player', function (data) {
@@ -56,6 +57,7 @@
         loadSound('pc_love_you', 'sounds/pc_love_you.wav');
         loadSound('witch_laugh', 'sounds/witch_laugh.wav');
         loadSound('never_give_you_up', 'sounds/never_give_you_up.wav');
+        loadSound('applause', 'sounds/applause.wav');
       });
 
       initVideo();
@@ -105,6 +107,12 @@
           id: pid
         });
         $el.toggleClass('flipped');
+        // if first click
+        playSound(soundNames[Math.floor(Math.random()*3)]);
+        // else if 2nd click and wrong
+        //playSound('never_give_you_up');
+        //else if 2nd click and right
+        //playSound('applause');
       });
 
       var loadSound = function(name, url) {
