@@ -30,7 +30,7 @@
       var soundBuffers = {};
       var soundNames = ["cuckoo_clock", "pc_love_you", "witch_laugh"];
 
-      var socket = io.connect('http://localhost');
+      var socket = io.connect(window.location.href);
       socket.on('new_player', function (data) {
         console.log(data);
         // Set a global ID
