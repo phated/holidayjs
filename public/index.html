@@ -1,5 +1,10 @@
+<!DOCTYPE html>
 <html>
   <head>
+    <link type="text/css" rel="stylesheet" href="stylesheets/style.css"/>
+
+    <script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/lodash.js/1.0.0-rc.2/lodash.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script>
       navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia ||
@@ -29,19 +34,20 @@
         console.log(data);
         // Set a global ID
         userId = data.id;
-        // TODO: insert tiles
+        addTiles(randomize(data.players));
       });
 
       socket.on('need_img', function(data){
         if(userId === data.id){
           var imgData = getSnapShot();
-          socket.emit('upload_img', { img: imgData });
+          socket.emit('upload_img', { id: userId, img: imgData });
         }
       });
 
       socket.on('send_img', function(data) {
-        var img = document.getElementById('save');
-        img.src = data.upload_img;
+        // var img = document.getElementById('save');
+        // img.src = data.img;
+        $('[data-pid="' + data.id + '"] img').attr('src', data.img);
       });
 
      window.addEventListener('load', function(e){
@@ -57,9 +63,9 @@
         var canvas = document.getElementById('canvas');
         var context = canvas.getContext('2d');
         //grab snapshot
-        context.drawImage(video, 150, 150);
+        context.drawImage(video, 0, 0, 150, 150);
         //capture base 64 data
-        return canvas.toDataURL();        
+        return canvas.toDataURL();
       }
 
       function initVideo() {
@@ -72,6 +78,31 @@
           console.log(error);
         });
       }
+
+      function randomize(array){
+        return _.shuffle(array);
+      }
+
+      function addTiles(players){
+        var container = document.getElementById('container');
+        var tiles1 = _.map(players, function(player){
+          return '<div class="pics" data-pid="' + player + '"><img src="http://holidayjs.com/images/logo.png"></div>';
+        });
+        var tiles2 = _.map(players, function(player){
+          return '<div class="pics" data-pid="' + player + '"><img src="http://holidayjs.com/images/logo.png"></div>';
+        });
+        var tiles = randomize(tiles1.concat(tiles2));
+        container.innerHTML = tiles.join('');
+      }
+
+      $(document).on('click', '.pics', function(){
+        console.log('FLIP');
+        var pid = $(this).data('pid');
+        console.log(pid);
+        socket.emit('tile_flip', {
+          id: pid
+        });
+      });
 
       var loadSound = function(name, url) {
         var request = new XMLHttpRequest();
@@ -110,5 +141,6 @@
     <video id="myVideo" autoplay></video>
     <canvas id="canvas" height="150" width="150"></canvas>
     <img id="save" />
+    <div id="container" class="outside"></div>
   </body>
 </html>
